@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Prompt:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Prompt";
+      }
+      p,
+      .r {
+        font-size: 25px;
+      }
+    </style>
+    <title>GPA CALCULATOR API</title>
+  </head>
+  <body>
+    <div class="container p-3">
+      <h1>Week9-GPA-CALCULATOR-EXPRESS-API</h1>
+      <hr />
+      <p class="badge bg-dark r">รหัสนักศึกษา : 620610820</p>
+      
+      <p>
+        ให้นักศึกษาพัฒนา Restful API สำหรับจัดการข้อมูลวิชาที่ลงเรียน ไม่ว่าจะเป็น grade,
+        credit, รหัสวิชา, ชื่อวิชา โดยทำ CRUD (<span class="text-success">Create</span>
+        <span class="text-primary">Read</span>
+        <span class="text-warning">Update</span>
+        <span class="text-danger">Delete</span> ) กับไฟล์ที่ชื่อว่า
+        <span class="badge bg-dark">myCourses.json</span> 
+      </p>
+      <p>
+        โดยใน Lab นี้จะให้ทำเพียงแค่
+        <span class="text-success">Create</span>
+        <span class="text-primary">Read</span>
+        <span class="text-danger">Delete</span> เท่านั้น โดยมี route/path ที่ให้บริการข้อมูบดังต่อไปนี้
+      </p>
+
+      <div>
+        <h2>API Doc:</h2>
+        <hr />
+        <div class="r">
+          <span class="badge bg-primary">GET /courses</span>
+          <span>
+            : แสดงข้อมูลวิชาที่มีอยู่ทั้งหมด และ GPA เฉลี่ย (GPAX)
+            โดยต้องเป็นเกรดเฉลี่ยที่คำณวณเรียบร้อยแล้ว</span
+          >
+
+          <p><u>ตัวอย่างผลลัพธ์</u></p>
+          <img src="assets/get-courses-ex.png" alt="" />
+        </div>
+        <div class="r">
+          <span class="badge bg-primary">GET /courses/:id</span>
+          <span>
+            : แสดงข้อมูลของวิชาตามรหัสวิชา ถ้าพบให้ส่ง status code
+            <span class="text-success">200</span> ถ้าไม่พบให้ส่ง status code
+            เป็น <span class="text-danger">404</span>
+          </span>
+          <p><u>ตัวอย่างผลลัพธ์</u></p>
+          <p class="text-success">success</p>
+          <img src="assets/get-by-id-success.png" alt="" />
+          <p class="text-danger">failed</p>
+          <img src="assets/get-by-id-failed.png" alt="" />
+        </div>
+
+        <div class="r">
+          <span class="badge bg-danger">DELETE /courses/:id</span>
+          <span>
+            : ลบวิชาออก โดยลบจากรหัสวิชาและส่ง response เป็นข้อมูล
+            วิชาที่เหลืออยู่หลังจากลบกลับมา (ถ้าไม่มีข้อมูลของรหัสวิชาที่ต้องการลบ ให้ส่งข้อมูลวิชาทั้งหมดกลับมา)</span
+          >
+          <p><u>ตัวอย่างผลลัพธ์</u></p>
+          <img src="assets/delete.png" alt="" />
+        </div>
+        <div class="r">
+          <span class="badge bg-success">POST /addCourse</span>
+          <span> : เพิ่มข้อมูลวิชาในส่วนของ HTML Body ในรูปแบบ JSON โดยมีข้อมูลดังต่อไปนี้ </span>
+          <p>
+            <pre>
+            { 
+              courseId : int, 
+              courseName : string, 
+              credit : int, 
+              gpa : float 
+            }
+          </pre>
+          </p>
+          <p>
+            โดยส่ง response เป็นวิชาที่ถูกเพิ่มเข้าไป เมื่อเพิ่มสำเร็จให้ส่ง
+            status code เป็น
+            <span class="text-success">201(created)</span> กลับมา
+            ถ้าผิดพลาดเนื่องจากใส่ body ไม่ครบ ให้ส่ง status code เป็น
+            <span class="text-warning">422(Unprocessable Entity)</span>
+          </p>
+          <p><u>ตัวอย่างผลลัพธ์</u></p>
+          <p class="text-success">success</p>
+          <img src="assets/post-success.png" alt="" />
+          <p class="text-danger">failed</p>
+          <img src="assets/post-failed.png" alt="" />
+        </div>
+
+        <br />
+        <div class="alert alert-success">
+          ให้ใช้โปรแกรม Postman :
+          <a href="https://www.postman.com/downloads/">Download link</a>
+          ในการทดสอบ GET POST DELETE api ตัวนี้
+        </div>
+        <hr />
+        <div class="alert alert-warning">
+          <span
+            >hint1 : ในการลบและการเพิ่มวิชาสามารถใช้ Array method เช่น filter
+            push มาช่วยได้</span
+          >
+          <br />
+          <span
+            >hint2 : ในการคำนวณ GPA เฉลี่ย array method ที่ชื่อว่า map และ
+            reduce สามารถช่วยนักศึกษาได้มาก</span
+          >
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
